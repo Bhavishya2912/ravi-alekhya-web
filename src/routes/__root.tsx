@@ -77,14 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Ravi-Alekhya-wedding-invite" },
+      { name: "description", content: "Welcome to Ravi and Alekhya Wedding" },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Ravi-Alekhya-wedding-invite" },
+      { property: "og:description", content: "Welcome to Ravi and Alekhya Wedding" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Ravi-Alekhya-wedding-invite" },
+      { name: "twitter:description", content: "Welcome to Ravi and Alekhya Wedding" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/e8e45ae5-3aa8-4c41-a213-1a68b0be72a9" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/e8e45ae5-3aa8-4c41-a213-1a68b0be72a9" },
     ],
     links: [
       {
