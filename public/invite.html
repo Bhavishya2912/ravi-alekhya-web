@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Tenor+Sans&display=swap" rel="stylesheet">
-<link rel="preload" as="video" href="/__l5e/assets-v1/89a6d34a-61de-4391-9182-07ad38d77076/entry-ganesha.mp4">
+<link rel="preload" as="image" href="/__l5e/assets-v1/e2399453-2a42-4281-abdb-3035e4c68a62/envelope-intro.jpg">
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
@@ -94,30 +94,63 @@ transition: opacity 1.2s ease-out, transform 1.2s ease-out;
 .reveal-delay-3 { transition-delay: 0.35s; }
 
 /* ============================================================
-ENTRY VIDEO GATE
+ENVELOPE ENTRY GATE — cinematic still-life
 ============================================================ */
 #entry-gate {
-position: fixed; inset: 0; background: #0a0505; z-index: 9999;
-display: flex; align-items: center; justify-content: center;
-cursor: pointer; transition: opacity 0.9s ease, filter 0.9s ease; user-select: none;
--webkit-user-select: none;
+position: fixed; inset: 0; background: #0a0505; z-index: 9999; overflow: hidden;
+user-select: none; -webkit-user-select: none;
+transition: opacity 0.6s ease;
 }
-#entry-gate video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: filter 0.6s ease; }
-#play-overlay {
-position: absolute; inset: 0; display: flex; flex-direction: column;
-align-items: center; justify-content: flex-start; z-index: 2;
-padding-top: max(7vh, 2.5rem);
-background: rgba(10,5,5,0.25); transition: opacity 0.4s ease;
+#envelope-img {
+position: absolute; inset: 0; width: 100%; height: 100%;
+object-fit: cover; object-position: center;
+transform-origin: 55.5% 50%;
+transition: transform 1.0s cubic-bezier(.22,.61,.36,1), filter 0.9s ease, opacity 0.6s ease;
 }
-#play-overlay.hidden { opacity: 0; pointer-events: none; }
-#entry-gate.fade-out { opacity: 0; pointer-events: none; filter: blur(24px) brightness(1.6); }
-#entry-gate.fade-out video { filter: blur(18px) brightness(1.4); }
+#entry-gate.opening #envelope-img {
+transform: scale(1.55) translateZ(0);
+filter: blur(14px) brightness(1.5);
+}
+/* Pulsing tap target right on the Ganesha wax seal */
+#seal-target {
+position: absolute; left: 55.5%; top: 50%;
+transform: translate(-50%, -50%);
+width: clamp(64px, 9vw, 120px); height: clamp(64px, 9vw, 120px);
+border-radius: 50%; cursor: pointer; z-index: 4;
+background: transparent; border: 0; padding: 0;
+animation: sealPulse 2.2s ease-in-out infinite;
+}
+#seal-target::before {
+content: ''; position: absolute; inset: -18%; border-radius: 50%;
+box-shadow: 0 0 0 2px rgba(255,220,140,0.55), 0 0 30px 6px rgba(255,200,110,0.35);
+animation: sealRing 2.2s ease-out infinite;
+}
+@keyframes sealPulse { 0%,100% { transform: translate(-50%,-50%) scale(1); } 50% { transform: translate(-50%,-50%) scale(1.06); } }
+@keyframes sealRing  { 0% { opacity: 0.9; transform: scale(0.85); } 100% { opacity: 0; transform: scale(1.6); } }
+#entry-gate.opening #seal-target { opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
+
+/* Tap-to-open floating caption (kept subtle since image already shows it) */
+#tap-hint {
+position: absolute; left: 0; right: 0; top: 6%; text-align: center;
+font-family: 'Cormorant Garamond', serif; font-style: italic;
+letter-spacing: 0.08em; font-size: clamp(0.9rem, 1.6vw, 1.15rem);
+color: rgba(255,230,180,0.0); z-index: 3; pointer-events: none;
+}
+#entry-gate.opening #tap-hint { opacity: 0; }
+
+/* Divine golden flash — radiates from the seal */
 #divine-flash {
-position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0;
-background: radial-gradient(circle at center, rgba(255,240,200,1) 0%, rgba(255,220,140,0.85) 35%, rgba(255,200,100,0) 75%);
-transition: opacity 0.5s ease;
+position: absolute; inset: -10%; z-index: 5; pointer-events: none; opacity: 0;
+background:
+  radial-gradient(circle at 55.5% 50%, rgba(255,250,235,1) 0%, rgba(255,225,150,0.95) 18%, rgba(255,200,110,0.6) 38%, rgba(255,180,90,0) 70%);
+transform: scale(0.4);
+transition: opacity 0.45s ease, transform 0.9s cubic-bezier(.22,.61,.36,1);
+mix-blend-mode: screen;
+filter: blur(8px);
 }
-#entry-gate.fade-out #divine-flash { opacity: 1; }
+#entry-gate.opening #divine-flash { opacity: 1; transform: scale(1.4); }
+
+#entry-gate.fade-out { opacity: 0; pointer-events: none; }
 
 /* ============================================================
 AUDIO TOGGLE
@@ -441,10 +474,9 @@ video[data-src] { background: #1a0d08; }
 </button>
 
 <div id="entry-gate">
-<video id="entry-video" playsinline preload="metadata" muted>
-<source src="/__l5e/assets-v1/89a6d34a-61de-4391-9182-07ad38d77076/entry-ganesha.mp4" type="video/mp4">
-</video>
-<div id="play-overlay"><p class="tap-reveal-text">Tap to Reveal</p></div>
+<img id="envelope-img" src="/__l5e/assets-v1/e2399453-2a42-4281-abdb-3035e4c68a62/envelope-intro.jpg" alt="Ravi and Alekhya — A Sacred Union wedding envelope with Ganesha wax seal">
+<div id="tap-hint">tap the Ganesha seal to open</div>
+<button id="seal-target" aria-label="Open the wedding invitation"></button>
 <div id="divine-flash"></div>
 </div>
 
@@ -576,7 +608,7 @@ A moment captured in time, forever in our hearts
 <div class="event-block reveal">
 <div class="event-video-wrap">
 <video autoplay muted loop playsinline>
-<source src="/__l5e/assets-v1/dd723629-9b5e-41d7-b9a9-6c6dae981bc4/sangeet.mp4" type="video/mp4">
+<source src="/__l5e/assets-v1/77e7ad1e-8452-4dae-babb-1a2c56ed0e6c/sangeet.mp4" type="video/mp4">
 </video>
 <div class="event-overlay-text">
 <span class="ev-day">Thursday</span>
@@ -621,7 +653,7 @@ A moment captured in time, forever in our hearts
 <div class="event-block reveal">
 <div class="event-video-wrap">
 <video autoplay muted loop playsinline>
-<source src="/__l5e/assets-v1/5da4672b-bd65-404b-8f7a-12917d11b5e8/muhurtham.mp4" type="video/mp4">
+<source src="/__l5e/assets-v1/4bc1f431-681c-4440-acc0-06c23379c76a/muhurtham.mp4" type="video/mp4">
 </video>
 <div class="event-overlay-text">
 <span class="ev-day">Thursday · 1:51 AM onwards</span>
@@ -840,14 +872,14 @@ io.observe(section);
 ENTRY GATE & SMOOTH SCROLLING
 ================================================================ */
 const gate = document.getElementById('entry-gate');
-const entryVideo = document.getElementById('entry-video');
-const playOverlay = document.getElementById('play-overlay');
+const sealTarget = document.getElementById('seal-target');
 const bgAudio = document.getElementById('bg-audio');
 const mainEl = document.getElementById('main-content');
 const petalCanvas = document.getElementById('petals-canvas');
 
 let audioPlaying = false;
 let mainRevealed = false;
+let gateOpened = false;
 let autoScrollTimeout;
 let userInteracted = false;
 let scratchInitialized = false;
@@ -876,19 +908,15 @@ window.removeEventListener('mousedown', handleUserInteraction);
 window.removeEventListener('keydown', handleUserInteraction);
 }
 
-entryVideo.addEventListener('loadedmetadata', () => { entryVideo.currentTime = 0.001; });
-entryVideo.addEventListener('loadeddata', () => { if (entryVideo.currentTime < 0.001) entryVideo.currentTime = 0.001; });
-
 function revealMain() {
 if (mainRevealed) return;
 mainRevealed = true;
 gate.classList.add('fade-out');
-setTimeout(() => { gate.style.display = 'none'; }, 900);
+setTimeout(() => { gate.style.display = 'none'; }, 700);
 mainEl.classList.add('visible', 'fade-in');
 petalCanvas.classList.add('active');
 document.body.style.overflow = 'auto';
 initReveal(); initEventAutoExpand();
-// Initialize the hearts logic
 if(!scratchInitialized) { initAutoReveal(); scratchInitialized = true; }
 setTimeout(() => {
 window.addEventListener('wheel', handleUserInteraction, { passive: true });
@@ -908,41 +936,56 @@ smoothScrollTo(targetY, 2500);
 }, 5000);
 }
 
-gate.addEventListener('click', async () => {
-if (mainRevealed) return;
-playOverlay.classList.add('hidden');
+function playDivineChime() {
 try {
-  const AC = window.AudioContext || window.webkitAudioContext;
-  if (AC) {
-    const ac = new AC();
-    // Delay chime to land on the envelope-open flash moment (~3.8s into video)
-    const now = ac.currentTime + 3.8;
-    const notes = [ {f: 1320, d: 0.0}, {f: 1760, d: 0.18}, {f: 2640, d: 0.36} ];
-    notes.forEach(n => {
-      const osc = ac.createOscillator();
-      const gain = ac.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = n.f;
-      gain.gain.setValueAtTime(0.0001, now + n.d);
-      gain.gain.exponentialRampToValueAtTime(0.35, now + n.d + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + n.d + 2.0);
-      osc.connect(gain).connect(ac.destination);
-      osc.start(now + n.d);
-      osc.stop(now + n.d + 2.1);
-    });
-  }
-} catch(_) {}
-try {
-entryVideo.muted = false;
-await entryVideo.play();
-try { await bgAudio.play(); audioPlaying = true; updateAudioIcon(); } catch(_) {}
-} catch(err) {
-entryVideo.muted = true;
-try { await entryVideo.play(); try { await bgAudio.play(); audioPlaying = true; updateAudioIcon(); } catch(_) {} } catch(e2) { revealMain(); }
+const AC = window.AudioContext || window.webkitAudioContext;
+if (!AC) return;
+const ac = new AC();
+const now = ac.currentTime;
+// Paper-opening crinkle: short filtered noise burst
+const bufferSize = Math.floor(ac.sampleRate * 0.6);
+const noiseBuf = ac.createBuffer(1, bufferSize, ac.sampleRate);
+const data = noiseBuf.getChannelData(0);
+for (let i = 0; i < bufferSize; i++) {
+const env = Math.pow(1 - i / bufferSize, 2.2);
+data[i] = (Math.random() * 2 - 1) * env * 0.55;
 }
+const noise = ac.createBufferSource(); noise.buffer = noiseBuf;
+const noiseFilter = ac.createBiquadFilter(); noiseFilter.type = 'highpass'; noiseFilter.frequency.value = 2200;
+const noiseGain = ac.createGain(); noiseGain.gain.value = 0.45;
+noise.connect(noiseFilter).connect(noiseGain).connect(ac.destination);
+noise.start(now);
+// Harmonious divine chime — root, fifth, octave
+const chimeStart = now + 0.12;
+const notes = [ {f: 1320, d: 0.0}, {f: 1760, d: 0.14}, {f: 2640, d: 0.28}, {f: 3520, d: 0.42} ];
+notes.forEach(n => {
+const osc = ac.createOscillator();
+const gain = ac.createGain();
+osc.type = 'sine';
+osc.frequency.value = n.f;
+gain.gain.setValueAtTime(0.0001, chimeStart + n.d);
+gain.gain.exponentialRampToValueAtTime(0.32, chimeStart + n.d + 0.025);
+gain.gain.exponentialRampToValueAtTime(0.0001, chimeStart + n.d + 2.2);
+osc.connect(gain).connect(ac.destination);
+osc.start(chimeStart + n.d);
+osc.stop(chimeStart + n.d + 2.3);
 });
-entryVideo.addEventListener('ended', revealMain);
-entryVideo.addEventListener('error', () => { if (!mainRevealed) setTimeout(revealMain, 500); });
+} catch(_) {}
+}
+
+function openEnvelope() {
+if (gateOpened || mainRevealed) return;
+gateOpened = true;
+playDivineChime();
+gate.classList.add('opening');
+try { bgAudio.play().then(() => { audioPlaying = true; updateAudioIcon(); }).catch(()=>{}); } catch(_) {}
+// Flash peaks ~600ms in; reveal main as flash fades
+setTimeout(revealMain, 1100);
+}
+
+sealTarget.addEventListener('click', (e) => { e.stopPropagation(); openEnvelope(); });
+// Allow tap anywhere as a fallback after a brief moment so users aren't stuck
+gate.addEventListener('click', () => { openEnvelope(); });
 document.body.style.overflow = 'hidden';
 
 /* ================================================================
