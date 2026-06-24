@@ -358,6 +358,12 @@ max-width: 320px; margin: 0 auto; aspect-ratio: 9/16;
 .event-overlay-text .ev-title { font-family: 'Great Vibes', cursive; font-size: 3.2rem; color: #fff; text-shadow: 0 4px 22px rgba(0,0,0,0.9), 0 0 30px rgba(201,150,62,0.5); margin-top: 0.5rem; line-height: 1; }
 .event-overlay-text .ev-divider { width: 40px; height: 1px; background: var(--gold-light); opacity: 0.7; margin: 0.6rem 0; }
 
+/* Date/time heading bar above each ceremony video */
+.event-heading { text-align: center; margin-bottom: 1rem; }
+.event-heading .eh-label { font-family: 'Tenor Sans', sans-serif; font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.4rem; }
+.event-heading .eh-when { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: clamp(1.1rem, 3.4vw, 1.45rem); color: var(--terra-dark); letter-spacing: 0.02em; }
+.event-heading .eh-when .eh-dot { color: var(--gold); margin: 0 0.55rem; }
+
 .event-venue-card {
 max-width: 420px; margin: 1.25rem auto 0; background: var(--white);
 border-radius: 1rem; border: 1px solid var(--border); overflow: hidden;
@@ -601,13 +607,17 @@ A moment captured in time, forever in our hearts
 </div>
 
 <div class="event-block reveal">
+<div class="event-heading">
+<span class="eh-label">Ceremony One</span>
+<div class="eh-when">Sunday<span class="eh-dot">·</span>28 June 2026<span class="eh-dot">·</span>Evening</div>
+</div>
 <div class="event-video-wrap">
 <video autoplay muted loop playsinline>
-<source src="/__l5e/assets-v1/77e7ad1e-8452-4dae-babb-1a2c56ed0e6c/sangeet.mp4" type="video/mp4">
+<source src="/__l5e/assets-v1/73aa98bf-2f3d-415f-931a-189691a037cb/sangeet.mp4" type="video/mp4">
 </video>
 <div class="event-overlay-text">
-<span class="ev-day">Thursday</span>
-<span class="ev-date">28th June, 2026</span>
+<span class="ev-day">Sunday</span>
+<span class="ev-date">28 June, 2026</span>
 <div class="ev-divider"></div>
 <span class="ev-title">Sangeet</span>
 </div>
@@ -616,13 +626,17 @@ A moment captured in time, forever in our hearts
 <div class="event-sep reveal"><div class="event-sep-line"></div><div class="event-sep-dot"></div><div class="event-sep-line"></div></div>
 
 <div class="event-block reveal">
+<div class="event-heading">
+<span class="eh-label">Ceremony Two</span>
+<div class="eh-when">Wednesday<span class="eh-dot">·</span>01 July 2026<span class="eh-dot">·</span>Morning</div>
+</div>
 <div class="event-video-wrap">
 <video autoplay muted loop playsinline>
 <source src="/__l5e/assets-v1/2f8f2179-fc05-4bb4-8522-a6a864231320/pellikoduku.mp4" type="video/mp4">
 </video>
 <div class="event-overlay-text">
 <span class="ev-day">Wednesday</span>
-<span class="ev-date">01st July, 2026</span>
+<span class="ev-date">01 July, 2026</span>
 <div class="ev-divider"></div>
 <span class="ev-title">Pellikoduku</span>
 </div>
@@ -631,30 +645,38 @@ A moment captured in time, forever in our hearts
 <div class="event-sep reveal"><div class="event-sep-line"></div><div class="event-sep-dot"></div><div class="event-sep-line"></div></div>
 
 <div class="event-block reveal">
+<div class="event-heading">
+<span class="eh-label">Ceremony Three</span>
+<div class="eh-when">Thursday<span class="eh-dot">·</span>02 July 2026<span class="eh-dot">·</span>1:51 AM Muhurtham</div>
+</div>
 <div class="event-video-wrap">
 <video autoplay muted loop playsinline>
-<source src="/__l5e/assets-v1/622eba19-fc6e-4345-a554-27ab2a31a2f2/reception.mp4" type="video/mp4">
+<source src="/__l5e/assets-v1/97f78212-4dc4-4c41-a335-77b048701d81/muhurtham.mp4" type="video/mp4">
 </video>
 <div class="event-overlay-text">
-<span class="ev-day">Thursday · 7 PM onwards</span>
-<span class="ev-date">2nd July, 2026</span>
+<span class="ev-day">Thursday · 1:51 AM</span>
+<span class="ev-date">02 July, 2026</span>
 <div class="ev-divider"></div>
-<span class="ev-title">Reception</span>
+<span class="ev-title">Muhurtham</span>
 </div>
 </div>
 </div>
 <div class="event-sep reveal"><div class="event-sep-line"></div><div class="event-sep-dot"></div><div class="event-sep-line"></div></div>
 
 <div class="event-block reveal">
+<div class="event-heading">
+<span class="eh-label">Ceremony Four</span>
+<div class="eh-when">Thursday<span class="eh-dot">·</span>02 July 2026<span class="eh-dot">·</span>7 PM onwards</div>
+</div>
 <div class="event-video-wrap">
 <video autoplay muted loop playsinline>
-<source src="/__l5e/assets-v1/4bc1f431-681c-4440-acc0-06c23379c76a/muhurtham.mp4" type="video/mp4">
+<source src="/__l5e/assets-v1/622eba19-fc6e-4345-a554-27ab2a31a2f2/reception.mp4" type="video/mp4">
 </video>
 <div class="event-overlay-text">
-<span class="ev-day">Thursday · 1:51 AM onwards</span>
-<span class="ev-date">2nd July, 2026</span>
+<span class="ev-day">Thursday · 7 PM</span>
+<span class="ev-date">02 July, 2026</span>
 <div class="ev-divider"></div>
-<span class="ev-title">Muhurtham</span>
+<span class="ev-title">Reception</span>
 </div>
 </div>
 </div>
