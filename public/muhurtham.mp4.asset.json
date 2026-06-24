@@ -1,11 +1,11 @@
 {
-  "asset_id": "5da4672b-bd65-404b-8f7a-12917d11b5e8",
-  "content_type": "video/mp4",
-  "created_at": "2026-06-24T10:27:10Z",
-  "original_filename": "muhurtham.mp4",
+  "version": 1,
+  "asset_id": "4bc1f431-681c-4440-acc0-06c23379c76a",
   "project_id": "0b1ab424-06d2-4a59-af22-509fdd355065",
-  "r2_key": "a/v1/0b1ab424-06d2-4a59-af22-509fdd355065/5da4672b-bd65-404b-8f7a-12917d11b5e8/muhurtham.mp4",
-  "size": 9696769,
-  "url": "/__l5e/assets-v1/5da4672b-bd65-404b-8f7a-12917d11b5e8/muhurtham.mp4",
-  "version": 1
+  "url": "/__l5e/assets-v1/4bc1f431-681c-4440-acc0-06c23379c76a/muhurtham.mp4",
+  "r2_key": "a/v1/0b1ab424-06d2-4a59-af22-509fdd355065/4bc1f431-681c-4440-acc0-06c23379c76a/muhurtham.mp4",
+  "original_filename": "muhurtham.mp4",
+  "size": 15408001,
+  "content_type": "video/mp4",
+  "created_at": "2026-06-24T11:24:57Z"
 }
