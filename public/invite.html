@@ -1009,8 +1009,9 @@ gateOpened = true;
 playDivineChime();
 gate.classList.add('opening');
 try { bgAudio.play().then(() => { audioPlaying = true; updateAudioIcon(); }).catch(()=>{}); } catch(_) {}
-// Flash peaks ~600ms in; reveal main as flash fades
-setTimeout(revealMain, 1100);
+// Flap opens (~1s), flash bursts behind it, then reveal main
+setTimeout(playDivineChime, 450);
+setTimeout(revealMain, 1700);
 }
 
 sealTarget.addEventListener('click', (e) => { e.stopPropagation(); openEnvelope(); });
