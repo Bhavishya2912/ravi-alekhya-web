@@ -1006,11 +1006,10 @@ osc.stop(chimeStart + n.d + 2.3);
 function openEnvelope() {
 if (gateOpened || mainRevealed) return;
 gateOpened = true;
-playDivineChime();
 gate.classList.add('opening');
 try { bgAudio.play().then(() => { audioPlaying = true; updateAudioIcon(); }).catch(()=>{}); } catch(_) {}
-// Flap opens (~1s), flash bursts behind it, then reveal main
-setTimeout(playDivineChime, 450);
+// Flap unfolds outward (~1s), divine flash bursts behind it, then reveal main
+setTimeout(playDivineChime, 500);
 setTimeout(revealMain, 1700);
 }
 
