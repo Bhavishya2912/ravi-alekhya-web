@@ -868,6 +868,7 @@ ENTRY GATE & SMOOTH SCROLLING
 ================================================================ */
 const gate = document.getElementById('entry-gate');
 const sealTarget = document.getElementById('seal-target');
+const envelopeVideo = document.getElementById('envelope-video');
 const bgAudio = document.getElementById('bg-audio');
 const mainEl = document.getElementById('main-content');
 const petalCanvas = document.getElementById('petals-canvas');
@@ -973,9 +974,12 @@ if (gateOpened || mainRevealed) return;
 gateOpened = true;
 gate.classList.add('opening');
 try { bgAudio.play().then(() => { audioPlaying = true; updateAudioIcon(); }).catch(()=>{}); } catch(_) {}
-// Flap unfolds outward (~1s), divine flash bursts behind it, then reveal main
-setTimeout(playDivineChime, 500);
-setTimeout(revealMain, 1700);
+// Play the envelope-opening video (flap unfolds + divine flash, all in one clip)
+try { envelopeVideo.currentTime = 0; envelopeVideo.play().catch(()=>{}); } catch(_) {}
+// Layer a soft paper-crinkle + divine chime over the video
+setTimeout(playDivineChime, 350);
+// Video is ~5s; reveal main near the end so the flash carries us into the invite
+setTimeout(revealMain, 4600);
 }
 
 sealTarget.addEventListener('click', (e) => { e.stopPropagation(); openEnvelope(); });
