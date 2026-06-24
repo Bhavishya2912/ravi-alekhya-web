@@ -891,7 +891,7 @@ io.observe(section);
 ENTRY GATE & SMOOTH SCROLLING
 ================================================================ */
 const gate = document.getElementById('entry-gate');
-const entryVideo = document.getElementById('entry-video');
+const sealHotspot = document.getElementById('seal-hotspot');
 const playOverlay = document.getElementById('play-overlay');
 const bgAudio = document.getElementById('bg-audio');
 const mainEl = document.getElementById('main-content');
@@ -899,6 +899,7 @@ const petalCanvas = document.getElementById('petals-canvas');
 
 let audioPlaying = false;
 let mainRevealed = false;
+let envelopeOpening = false;
 let autoScrollTimeout;
 let userInteracted = false;
 let scratchInitialized = false;
@@ -927,19 +928,15 @@ window.removeEventListener('mousedown', handleUserInteraction);
 window.removeEventListener('keydown', handleUserInteraction);
 }
 
-entryVideo.addEventListener('loadedmetadata', () => { entryVideo.currentTime = 0.001; });
-entryVideo.addEventListener('loadeddata', () => { if (entryVideo.currentTime < 0.001) entryVideo.currentTime = 0.001; });
-
 function revealMain() {
 if (mainRevealed) return;
 mainRevealed = true;
 gate.classList.add('fade-out');
-setTimeout(() => { gate.style.display = 'none'; }, 900);
+setTimeout(() => { gate.style.display = 'none'; }, 700);
 mainEl.classList.add('visible', 'fade-in');
 petalCanvas.classList.add('active');
 document.body.style.overflow = 'auto';
 initReveal(); initEventAutoExpand();
-// Initialize the hearts logic
 if(!scratchInitialized) { initAutoReveal(); scratchInitialized = true; }
 setTimeout(() => {
 window.addEventListener('wheel', handleUserInteraction, { passive: true });
@@ -959,41 +956,56 @@ smoothScrollTo(targetY, 2500);
 }, 5000);
 }
 
-gate.addEventListener('click', async () => {
-if (mainRevealed) return;
-playOverlay.classList.add('hidden');
+function playOpenChime() {
 try {
-  const AC = window.AudioContext || window.webkitAudioContext;
-  if (AC) {
-    const ac = new AC();
-    // Delay chime to land on the envelope-open flash moment (~3.8s into video)
-    const now = ac.currentTime + 3.8;
-    const notes = [ {f: 1320, d: 0.0}, {f: 1760, d: 0.18}, {f: 2640, d: 0.36} ];
-    notes.forEach(n => {
-      const osc = ac.createOscillator();
-      const gain = ac.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = n.f;
-      gain.gain.setValueAtTime(0.0001, now + n.d);
-      gain.gain.exponentialRampToValueAtTime(0.35, now + n.d + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + n.d + 2.0);
-      osc.connect(gain).connect(ac.destination);
-      osc.start(now + n.d);
-      osc.stop(now + n.d + 2.1);
-    });
-  }
-} catch(_) {}
-try {
-entryVideo.muted = false;
-await entryVideo.play();
-try { await bgAudio.play(); audioPlaying = true; updateAudioIcon(); } catch(_) {}
-} catch(err) {
-entryVideo.muted = true;
-try { await entryVideo.play(); try { await bgAudio.play(); audioPlaying = true; updateAudioIcon(); } catch(_) {} } catch(e2) { revealMain(); }
-}
+const AC = window.AudioContext || window.webkitAudioContext;
+if (!AC) return;
+const ac = new AC();
+const now = ac.currentTime;
+// Soft paper rustle: short burst of filtered noise
+const noiseBuf = ac.createBuffer(1, ac.sampleRate * 0.45, ac.sampleRate);
+const nd = noiseBuf.getChannelData(0);
+for (let i = 0; i < nd.length; i++) { nd[i] = (Math.random() * 2 - 1) * (1 - i / nd.length); }
+const noise = ac.createBufferSource(); noise.buffer = noiseBuf;
+const noiseFilter = ac.createBiquadFilter(); noiseFilter.type = 'bandpass'; noiseFilter.frequency.value = 2200; noiseFilter.Q.value = 0.8;
+const noiseGain = ac.createGain();
+noiseGain.gain.setValueAtTime(0.0001, now);
+noiseGain.gain.exponentialRampToValueAtTime(0.18, now + 0.04);
+noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.42);
+noise.connect(noiseFilter).connect(noiseGain).connect(ac.destination);
+noise.start(now); noise.stop(now + 0.45);
+// Harmonic chime triad
+const chimeStart = now + 0.25;
+const notes = [ {f: 1320, d: 0.0}, {f: 1760, d: 0.14}, {f: 2640, d: 0.28} ];
+notes.forEach(n => {
+const osc = ac.createOscillator();
+const gain = ac.createGain();
+osc.type = 'sine';
+osc.frequency.value = n.f;
+gain.gain.setValueAtTime(0.0001, chimeStart + n.d);
+gain.gain.exponentialRampToValueAtTime(0.32, chimeStart + n.d + 0.02);
+gain.gain.exponentialRampToValueAtTime(0.0001, chimeStart + n.d + 1.8);
+osc.connect(gain).connect(ac.destination);
+osc.start(chimeStart + n.d);
+osc.stop(chimeStart + n.d + 1.9);
 });
-entryVideo.addEventListener('ended', revealMain);
-entryVideo.addEventListener('error', () => { if (!mainRevealed) setTimeout(revealMain, 500); });
+} catch(_) {}
+}
+
+async function openEnvelope() {
+if (envelopeOpening || mainRevealed) return;
+envelopeOpening = true;
+playOverlay.classList.add('hidden');
+gate.classList.add('opening');
+playOpenChime();
+try { await bgAudio.play(); audioPlaying = true; updateAudioIcon(); } catch(_) {}
+// Flap unfolds + flash peaks ~700ms, then transition into main screen
+setTimeout(revealMain, 900);
+}
+
+sealHotspot.addEventListener('click', (e) => { e.stopPropagation(); openEnvelope(); });
+gate.addEventListener('click', openEnvelope);
+document.body.style.overflow = 'hidden';
 document.body.style.overflow = 'hidden';
 
 /* ================================================================
