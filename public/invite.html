@@ -1076,41 +1076,35 @@ el.style.pointerEvents = decline ? 'none' : '';
 });
 });
 
-rsvpForm.addEventListener('submit', async (e) => {
+rsvpForm.addEventListener('submit', (e) => {
 e.preventDefault();
-submitBtn.disabled = true;
-btnText.textContent = 'Sending...';
-btnSpinner.style.display = 'inline';
 const formData = new FormData(e.target);
 const data = {};
-// Extact values and properly join arrays into strings
 for (let key of formData.keys()) {
 const values = formData.getAll(key);
-// If there are multiple values (like selected events), join them with a comma
 data[key] = values.length > 1 ? values.join(', ') : values[0];
 }
-// Improvement: Clean up the data if they are declining
-// so we don't send confusing data to the database
 if (data.attending === 'no') {
 data.guest_count = "0";
 data.attending_events = "None";
 }
 data.clientId = 'SourabhwedsTejaswini-wedding-2026';
 
-try {
-const res = await fetch('https://wedding-backend-k67l.onrender.com/api/rsvp', {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify(data)
-});
-const result = await res.json();
-showModal(result.success ? 'success' : 'error');
-if (result.success) {
+// Instant UX: show success modal immediately, send in background (fire-and-forget)
+showModal('success');
 e.target.reset();
-// Reset the UI styling in case they declined but want to submit again
 extraIds.forEach(id => {
 const el = document.getElementById(id);
 if (el) { el.style.opacity = '1'; el.style.pointerEvents = ''; }
+});
+try {
+fetch('https://wedding-backend-k67l.onrender.com/api/rsvp', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify(data),
+keepalive: true
+}).catch(()=>{});
+} catch(_) {}
 });
 }
 } catch(err) {
