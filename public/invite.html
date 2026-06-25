@@ -1035,12 +1035,16 @@ if (gateOpened || mainRevealed) return;
 gateOpened = true;
 gate.classList.add('opening');
 try { bgAudio.play().then(() => { audioPlaying = true; updateAudioIcon(); }).catch(()=>{}); } catch(_) {}
-// Play the envelope-opening video (flap unfolds + divine flash, all in one clip)
+// Play the envelope-opening video (flap unfolds outward)
 try { envelopeVideo.currentTime = 0; envelopeVideo.play().catch(()=>{}); } catch(_) {}
-// Layer a soft paper-crinkle + divine chime over the video
-setTimeout(playDivineChime, 350);
-// Flash peaks ~1.8s into the video; reveal main right after for a seamless handoff
-setTimeout(revealMain, 2400);
+// Soft paper-crinkle + divine chime overlays the unfolding
+setTimeout(playDivineChime, 250);
+// Divine flash rises IN PARALLEL with the flap turning outward (starts ~600ms into unfold)
+setTimeout(() => { gate.classList.add('flashing'); }, 650);
+// Flash peaks then begins to fade
+setTimeout(() => { gate.classList.add('flash-fading'); }, 1450);
+// Reveal main screen within 1s after the flash peak
+setTimeout(revealMain, 1900);
 }
 
 sealTarget.addEventListener('click', (e) => { e.stopPropagation(); openEnvelope(); });
