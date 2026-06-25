@@ -105,9 +105,12 @@ transition: opacity 0.6s ease;
 /* Envelope opening video — covers the gate; paused on first frame, plays on tap */
 #envelope-video {
 position: absolute; inset: 0; width: 100%; height: 100%;
-object-fit: cover; object-position: center;
+object-fit: contain; object-position: center;
 background: #0a0505;
 transition: opacity 0.6s ease, transform 1.2s cubic-bezier(.22,.61,.36,1), filter 1.2s ease;
+}
+@media (min-width: 900px) {
+#envelope-video { object-fit: cover; }
 }
 #entry-gate.opening #envelope-video {
 transform: scale(1.08);
@@ -215,8 +218,8 @@ display: flex; flex-direction: column; align-items: center;
 .couple-prefix { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; font-size: clamp(1rem, 3.6vw, 1.4rem); line-height: 1.1; display: block; letter-spacing: 0.05em; color: var(--text-mid); }
 .couple-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 700; font-size: clamp(1.15rem, 4.2vw, 1.7rem); line-height: 1.2; display: block; letter-spacing: 0.015em; padding: 0.2rem 0; white-space: nowrap; }
 .couple-name-telugu { font-family: 'Tenor Sans','Noto Sans Telugu',sans-serif; font-size: clamp(0.85rem, 3.1vw, 1.1rem); line-height: 1.3; display: block; color: var(--terracotta); margin-top: 0.15rem; white-space: nowrap; }
-.family-line { font-family: 'Cormorant Garamond', serif; font-size: clamp(0.72rem, 2.6vw, 0.9rem); font-weight: 500; color: var(--text-dark); line-height: 1.4; margin-top: 0.5rem; white-space: nowrap; }
-.family-subline { font-family: 'Cormorant Garamond', serif; font-size: clamp(0.66rem, 2.4vw, 0.85rem); font-style: italic; color: var(--text-dark); line-height: 1.3; margin-top: 0.2rem; white-space: nowrap; }
+.family-line { font-family: 'Cormorant Garamond', serif; font-size: clamp(0.95rem, 3.6vw, 1.1rem); font-weight: 600; color: var(--text-dark); line-height: 1.45; margin-top: 0.5rem; }
+.family-subline { font-family: 'Cormorant Garamond', serif; font-size: clamp(0.85rem, 3.2vw, 1rem); font-style: italic; color: var(--text-mid); line-height: 1.4; margin-top: 0.25rem; }
 
 .ampersand-wrap { display: flex; align-items: center; justify-content: center; gap: 1rem; margin: 1.5rem 0; width: 100%; }
 .ampersand-line { height: 1px; width: 40px; background: var(--border); }
@@ -475,7 +478,7 @@ video[data-src] { background: #1a0d08; }
 
 <div id="entry-gate">
 <video id="envelope-video" muted playsinline preload="auto" poster="/__l5e/assets-v1/e2399453-2a42-4281-abdb-3035e4c68a62/envelope-intro.jpg" aria-label="Ravi and Alekhya — A Sacred Union wedding envelope opening">
-<source src="/__l5e/assets-v1/0b00d0d2-d562-4020-bc7e-59c11c4db600/envelope-open.mp4" type="video/mp4">
+<source src="/__l5e/assets-v1/5bbdc382-bf81-4ad9-9b89-61b665acf173/envelope-open.mp4" type="video/mp4">
 </video>
 <div id="tap-hint">tap the Ganesha seal to open</div>
 <button id="seal-target" aria-label="Open the wedding invitation"></button>
@@ -647,25 +650,6 @@ A moment captured in time, forever in our hearts
 <div class="event-block reveal">
 <div class="event-heading">
 <span class="eh-label">Ceremony Three</span>
-<div class="eh-when">Thursday<span class="eh-dot">·</span>02 July 2026<span class="eh-dot">·</span>1:51 AM Muhurtham</div>
-</div>
-<div class="event-video-wrap">
-<video autoplay muted loop playsinline>
-<source src="/__l5e/assets-v1/97f78212-4dc4-4c41-a335-77b048701d81/muhurtham.mp4" type="video/mp4">
-</video>
-<div class="event-overlay-text">
-<span class="ev-day">Thursday · 1:51 AM</span>
-<span class="ev-date">02 July, 2026</span>
-<div class="ev-divider"></div>
-<span class="ev-title">Muhurtham</span>
-</div>
-</div>
-</div>
-<div class="event-sep reveal"><div class="event-sep-line"></div><div class="event-sep-dot"></div><div class="event-sep-line"></div></div>
-
-<div class="event-block reveal">
-<div class="event-heading">
-<span class="eh-label">Ceremony Four</span>
 <div class="eh-when">Thursday<span class="eh-dot">·</span>02 July 2026<span class="eh-dot">·</span>7 PM onwards</div>
 </div>
 <div class="event-video-wrap">
@@ -678,6 +662,29 @@ A moment captured in time, forever in our hearts
 <div class="ev-divider"></div>
 <span class="ev-title">Reception</span>
 </div>
+</div>
+</div>
+<div class="event-sep reveal"><div class="event-sep-line"></div><div class="event-sep-dot"></div><div class="event-sep-line"></div></div>
+
+<div class="event-block reveal">
+<div class="event-heading">
+<span class="eh-label">Ceremony Four</span>
+<div class="eh-when">Thursday<span class="eh-dot">·</span>02 July 2026<span class="eh-dot">·</span>1:51 AM Muhurtham</div>
+</div>
+<div class="event-video-wrap">
+<video autoplay muted loop playsinline>
+<source src="/__l5e/assets-v1/b7e529d3-2d1e-4be8-8933-542731172685/muhurtham.mp4" type="video/mp4">
+</video>
+<div class="event-overlay-text">
+<span class="ev-day">Thursday · 1:51 AM</span>
+<span class="ev-date">02 July, 2026</span>
+<div class="ev-divider"></div>
+<span class="ev-title">Muhurtham</span>
+</div>
+</div>
+<div class="event-venue-card" style="margin-top:1.25rem;">
+<span class="event-venue-name">Konathala Residence, Visakhapatnam</span>
+<a class="event-dir-btn" href="https://maps.app.goo.gl/rCZeeJ8eaoNDVTt97" target="_blank" rel="noopener">View Venue Location</a>
 </div>
 </div>
 </section>
@@ -722,7 +729,25 @@ A moment captured in time, forever in our hearts
 </svg>
 </button>
 </div>
-</form>
+  </form>
+</section>
+
+<section id="venue-map-section" style="padding:4rem 1.5rem;background:var(--cream);">
+  <div class="text-center reveal" style="margin-bottom:2rem;">
+    <span class="section-label">Find Your Way</span>
+    <h2 class="section-heading" style="color:var(--terracotta)">Venue<br>Location</h2>
+    <p class="reveal reveal-delay-2 mt-4" style="font-style:italic;color:var(--text-light);font-size:1.05rem;margin-top:1rem;">Konathala Residence, Visakhapatnam</p>
+  </div>
+  <div class="reveal reveal-delay-2" style="max-width:720px;margin:0 auto;border-radius:1.25rem;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-warm);">
+    <iframe
+      src="https://maps.google.com/maps?q=17.6853209,83.0158446&z=17&output=embed"
+      width="100%" height="360" style="border:0;display:block;" loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade" allowfullscreen>
+    </iframe>
+  </div>
+  <div class="text-center reveal reveal-delay-3" style="margin-top:1.5rem;">
+    <a class="event-dir-btn" href="https://maps.app.goo.gl/rCZeeJ8eaoNDVTt97" target="_blank" rel="noopener">Open in Google Maps</a>
+  </div>
 </section>
 
 <section id="footer-section">
@@ -1000,8 +1025,8 @@ try { bgAudio.play().then(() => { audioPlaying = true; updateAudioIcon(); }).cat
 try { envelopeVideo.currentTime = 0; envelopeVideo.play().catch(()=>{}); } catch(_) {}
 // Layer a soft paper-crinkle + divine chime over the video
 setTimeout(playDivineChime, 350);
-// Video is ~5s; reveal main near the end so the flash carries us into the invite
-setTimeout(revealMain, 4600);
+// Flash peaks ~1.8s into the video; reveal main right after for a seamless handoff
+setTimeout(revealMain, 2400);
 }
 
 sealTarget.addEventListener('click', (e) => { e.stopPropagation(); openEnvelope(); });
@@ -1069,50 +1094,35 @@ el.style.pointerEvents = decline ? 'none' : '';
 });
 });
 
-rsvpForm.addEventListener('submit', async (e) => {
+rsvpForm.addEventListener('submit', (e) => {
 e.preventDefault();
-submitBtn.disabled = true;
-btnText.textContent = 'Sending...';
-btnSpinner.style.display = 'inline';
 const formData = new FormData(e.target);
 const data = {};
-// Extact values and properly join arrays into strings
 for (let key of formData.keys()) {
 const values = formData.getAll(key);
-// If there are multiple values (like selected events), join them with a comma
 data[key] = values.length > 1 ? values.join(', ') : values[0];
 }
-// Improvement: Clean up the data if they are declining
-// so we don't send confusing data to the database
 if (data.attending === 'no') {
 data.guest_count = "0";
 data.attending_events = "None";
 }
 data.clientId = 'SourabhwedsTejaswini-wedding-2026';
 
-try {
-const res = await fetch('https://wedding-backend-k67l.onrender.com/api/rsvp', {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify(data)
-});
-const result = await res.json();
-showModal(result.success ? 'success' : 'error');
-if (result.success) {
+// Instant UX: show success modal immediately, send in background (fire-and-forget)
+showModal('success');
 e.target.reset();
-// Reset the UI styling in case they declined but want to submit again
 extraIds.forEach(id => {
 const el = document.getElementById(id);
 if (el) { el.style.opacity = '1'; el.style.pointerEvents = ''; }
 });
-}
-} catch(err) {
-showModal('error');
-} finally {
-submitBtn.disabled = false;
-btnText.textContent = 'Send Love';
-btnSpinner.style.display = 'none';
-}
+try {
+fetch('https://wedding-backend-k67l.onrender.com/api/rsvp', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify(data),
+keepalive: true
+}).catch(()=>{});
+} catch(_) {}
 });
 
 const modal = document.getElementById('rsvp-modal');
