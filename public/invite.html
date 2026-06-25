@@ -102,7 +102,7 @@ position: fixed; inset: 0; background: #0a0505; z-index: 9999; overflow: hidden;
 user-select: none; -webkit-user-select: none;
 transition: opacity 0.6s ease;
 }
-/* Envelope opening video — covers the gate; paused on first frame, plays on tap */
+/* Envelope opening video — fully visible on every screen */
 #envelope-video {
 position: absolute; inset: 0; width: 100%; height: 100%;
 object-fit: contain; object-position: center;
@@ -114,8 +114,21 @@ transition: opacity 0.6s ease, transform 1.2s cubic-bezier(.22,.61,.36,1), filte
 }
 #entry-gate.opening #envelope-video {
 transform: scale(1.08);
-filter: brightness(1.08);
+filter: brightness(1.15);
 }
+
+/* Divine flash overlay — fires in parallel with the flap unfolding */
+#divine-flash {
+position: absolute; inset: 0; z-index: 5; pointer-events: none; opacity: 0;
+background:
+  radial-gradient(circle at 50% 50%, rgba(255,250,225,1) 0%, rgba(255,220,140,0.92) 18%, rgba(255,180,90,0.55) 38%, rgba(180,90,40,0) 70%),
+  radial-gradient(circle at 50% 55%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 45%);
+mix-blend-mode: screen;
+filter: blur(2px);
+transition: opacity 0.45s ease-out;
+}
+#entry-gate.flashing #divine-flash { opacity: 1; }
+#entry-gate.flash-fading #divine-flash { opacity: 0; transition: opacity 0.5s ease-in; }
 
 /* Pulsing tap target right on the Ganesha wax seal */
 #seal-target {
@@ -215,11 +228,11 @@ display: flex; flex-direction: column; align-items: center;
 
 .blessings-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.05rem; color: var(--text-mid); line-height: 1.5; margin-bottom: 1.75rem; padding: 0 1rem; }
 .couple-block { width: 100%; margin-bottom: 0.5rem; }
-.couple-prefix { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; font-size: clamp(1rem, 3.6vw, 1.4rem); line-height: 1.1; display: block; letter-spacing: 0.05em; color: var(--text-mid); }
-.couple-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 700; font-size: clamp(1.15rem, 4.2vw, 1.7rem); line-height: 1.2; display: block; letter-spacing: 0.015em; padding: 0.2rem 0; white-space: nowrap; }
-.couple-name-telugu { font-family: 'Tenor Sans','Noto Sans Telugu',sans-serif; font-size: clamp(0.85rem, 3.1vw, 1.1rem); line-height: 1.3; display: block; color: var(--terracotta); margin-top: 0.15rem; white-space: nowrap; }
-.family-line { font-family: 'Cormorant Garamond', serif; font-size: clamp(0.95rem, 3.6vw, 1.1rem); font-weight: 600; color: var(--text-dark); line-height: 1.45; margin-top: 0.5rem; }
-.family-subline { font-family: 'Cormorant Garamond', serif; font-size: clamp(0.85rem, 3.2vw, 1rem); font-style: italic; color: var(--text-mid); line-height: 1.4; margin-top: 0.25rem; }
+.couple-prefix { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; font-size: clamp(1.05rem, 4vw, 1.5rem); line-height: 1.1; display: block; letter-spacing: 0.05em; color: var(--text-mid); }
+.couple-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 700; font-size: clamp(1.35rem, 5.2vw, 2rem); line-height: 1.2; display: block; letter-spacing: 0.01em; padding: 0.2rem 0; white-space: nowrap; }
+.couple-name-telugu { font-family: 'Tenor Sans','Noto Sans Telugu',sans-serif; font-size: clamp(0.95rem, 3.6vw, 1.2rem); line-height: 1.3; display: block; color: var(--terracotta); margin-top: 0.15rem; white-space: nowrap; }
+.family-line { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.05rem, 4vw, 1.25rem); font-weight: 600; color: var(--text-dark); line-height: 1.5; margin-top: 0.65rem; word-wrap: break-word; }
+.family-subline { font-family: 'Cormorant Garamond', serif; font-size: clamp(0.95rem, 3.6vw, 1.1rem); font-style: italic; color: var(--text-mid); line-height: 1.45; margin-top: 0.35rem; word-wrap: break-word; }
 
 .ampersand-wrap { display: flex; align-items: center; justify-content: center; gap: 1rem; margin: 1.5rem 0; width: 100%; }
 .ampersand-line { height: 1px; width: 40px; background: var(--border); }
@@ -480,6 +493,7 @@ video[data-src] { background: #1a0d08; }
 <video id="envelope-video" muted playsinline preload="auto" poster="/__l5e/assets-v1/e2399453-2a42-4281-abdb-3035e4c68a62/envelope-intro.jpg" aria-label="Ravi and Alekhya — A Sacred Union wedding envelope opening">
 <source src="/__l5e/assets-v1/5bbdc382-bf81-4ad9-9b89-61b665acf173/envelope-open.mp4" type="video/mp4">
 </video>
+<div id="divine-flash" aria-hidden="true"></div>
 <div id="tap-hint">tap the Ganesha seal to open</div>
 <button id="seal-target" aria-label="Open the wedding invitation"></button>
 </div>
@@ -589,9 +603,8 @@ The start of a beautiful journey...
 </div>
 
 <div class="memories-carousel reveal reveal-delay-2" id="memoriesCarousel">
-<div class="memory-card"><img src="/__l5e/assets-v1/c3196862-7a8c-4d93-b646-3ac46afafb23/memory-1.png" alt="Memory 1" loading="lazy"></div>
-<div class="memory-card"><img src="/__l5e/assets-v1/8262d4b1-4262-4616-af97-6f760d433c49/memory-2.png" alt="Memory 2" loading="lazy"></div>
-<div class="memory-card"><img src="/__l5e/assets-v1/093807b7-b8f2-49f6-b5e3-f2cd30c637d7/memory-3.png" alt="Memory 3" loading="lazy"></div>
+<div class="memory-card"><img src="/__l5e/assets-v1/1cee1c43-ceb4-42cc-8efd-a82dcd2b3363/couple-invite-card.jpg" alt="Konathala Ravi Prakash and Karri Alekya wedding invitation" loading="lazy"></div>
+<div class="memory-card"><img src="/__l5e/assets-v1/093807b7-b8f2-49f6-b5e3-f2cd30c637d7/memory-3.png" alt="Memory" loading="lazy"></div>
 </div>
 <p class="text-center reveal reveal-delay-3 mt-8" style="font-style:italic;color:var(--text-light);font-size:1.1rem;">
 A moment captured in time, forever in our hearts
@@ -635,7 +648,7 @@ A moment captured in time, forever in our hearts
 </div>
 <div class="event-video-wrap">
 <video autoplay muted loop playsinline>
-<source src="/__l5e/assets-v1/2f8f2179-fc05-4bb4-8522-a6a864231320/pellikoduku.mp4" type="video/mp4">
+<source src="/__l5e/assets-v1/13a61510-a97b-4bd1-9bae-c3673587045a/pellikoduku.mp4" type="video/mp4">
 </video>
 <div class="event-overlay-text">
 <span class="ev-day">Wednesday</span>
@@ -673,7 +686,7 @@ A moment captured in time, forever in our hearts
 </div>
 <div class="event-video-wrap">
 <video autoplay muted loop playsinline>
-<source src="/__l5e/assets-v1/b7e529d3-2d1e-4be8-8933-542731172685/muhurtham.mp4" type="video/mp4">
+<source src="/__l5e/assets-v1/c5025698-299c-483e-8ba3-3d6acd0e2c97/muhurtham.mp4" type="video/mp4">
 </video>
 <div class="event-overlay-text">
 <span class="ev-day">Thursday · 1:51 AM</span>
@@ -683,7 +696,7 @@ A moment captured in time, forever in our hearts
 </div>
 </div>
 <div class="event-venue-card" style="margin-top:1.25rem;">
-<span class="event-venue-name">Konathala Residence, Visakhapatnam</span>
+<span class="event-venue-name">Konathala Residence, Anakapalle</span>
 <a class="event-dir-btn" href="https://maps.app.goo.gl/rCZeeJ8eaoNDVTt97" target="_blank" rel="noopener">View Venue Location</a>
 </div>
 </div>
@@ -736,7 +749,7 @@ A moment captured in time, forever in our hearts
   <div class="text-center reveal" style="margin-bottom:2rem;">
     <span class="section-label">Find Your Way</span>
     <h2 class="section-heading" style="color:var(--terracotta)">Venue<br>Location</h2>
-    <p class="reveal reveal-delay-2 mt-4" style="font-style:italic;color:var(--text-light);font-size:1.05rem;margin-top:1rem;">Konathala Residence, Visakhapatnam</p>
+    <p class="reveal reveal-delay-2 mt-4" style="font-style:italic;color:var(--text-light);font-size:1.05rem;margin-top:1rem;">Konathala Residence, Anakapalle</p>
   </div>
   <div class="reveal reveal-delay-2" style="max-width:720px;margin:0 auto;border-radius:1.25rem;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-warm);">
     <iframe
@@ -1021,12 +1034,16 @@ if (gateOpened || mainRevealed) return;
 gateOpened = true;
 gate.classList.add('opening');
 try { bgAudio.play().then(() => { audioPlaying = true; updateAudioIcon(); }).catch(()=>{}); } catch(_) {}
-// Play the envelope-opening video (flap unfolds + divine flash, all in one clip)
+// Play the envelope-opening video (flap unfolds outward)
 try { envelopeVideo.currentTime = 0; envelopeVideo.play().catch(()=>{}); } catch(_) {}
-// Layer a soft paper-crinkle + divine chime over the video
-setTimeout(playDivineChime, 350);
-// Flash peaks ~1.8s into the video; reveal main right after for a seamless handoff
-setTimeout(revealMain, 2400);
+// Soft paper-crinkle + divine chime overlays the unfolding
+setTimeout(playDivineChime, 250);
+// Divine flash rises IN PARALLEL with the flap turning outward (starts ~600ms into unfold)
+setTimeout(() => { gate.classList.add('flashing'); }, 650);
+// Flash peaks then begins to fade
+setTimeout(() => { gate.classList.add('flash-fading'); }, 1450);
+// Reveal main screen within 1s after the flash peak
+setTimeout(revealMain, 1900);
 }
 
 sealTarget.addEventListener('click', (e) => { e.stopPropagation(); openEnvelope(); });
