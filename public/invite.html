@@ -1007,8 +1007,8 @@ try { bgAudio.play().then(() => { audioPlaying = true; updateAudioIcon(); }).cat
 try { envelopeVideo.currentTime = 0; envelopeVideo.play().catch(()=>{}); } catch(_) {}
 // Layer a soft paper-crinkle + divine chime over the video
 setTimeout(playDivineChime, 350);
-// Video is ~5s; reveal main near the end so the flash carries us into the invite
-setTimeout(revealMain, 4600);
+// Flash peaks ~1.8s into the video; reveal main right after for a seamless handoff
+setTimeout(revealMain, 2400);
 }
 
 sealTarget.addEventListener('click', (e) => { e.stopPropagation(); openEnvelope(); });
