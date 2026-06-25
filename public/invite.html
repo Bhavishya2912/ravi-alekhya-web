@@ -1106,15 +1106,6 @@ keepalive: true
 }).catch(()=>{});
 } catch(_) {}
 });
-}
-} catch(err) {
-showModal('error');
-} finally {
-submitBtn.disabled = false;
-btnText.textContent = 'Send Love';
-btnSpinner.style.display = 'none';
-}
-});
 
 const modal = document.getElementById('rsvp-modal');
 const modalTitle = document.getElementById('modal-title');
